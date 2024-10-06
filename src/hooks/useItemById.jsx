@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { getProductById } from "../services/products.service";
+// src/hooks/useItemById.js
+import { useState, useEffect } from 'react';
 
 export const useItemById = (id) => {
-  const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(true);
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    getProductById(id)
-      .then((res) => {
-        setProduct(res.data);
-      })
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  }, []);
+    useEffect(() => {
+        // Aquí va tu lógica para obtener el producto por ID
+        // Asegúrate de manejar los estados de loading y error
+    }, [id]);
 
-  return { product, loading };
+    return { product, loading, error };
 };

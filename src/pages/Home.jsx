@@ -1,28 +1,37 @@
 import { useEffect, useState } from "react";
-import ItemListContainer from "../components/ItemListContainer/ItemListContainer";
-import { getAllProducts } from "../services/products.service";
-import { Box } from "@chakra-ui/react";
-import Loader from "../components/Loader/Loader";
-const Home = () => {
-  const [productsData, setProductsData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  // useEffect --> hook que nos sirve para ejecutar acciones asegurando que el componente ya esta renderizado (ya esta en el DOM)
-  useEffect(() => {
-    getAllProducts()
-      .then((res) => {
-        setProductsData(res.data.products);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+import ItemListContainer from "../components/ItemListContainer/ItemListContainer"; // Importa el componente
+import { getAllProducts } from "../services/products.service"; // Asegúrate de que este servicio esté bien configurado
+import { Box, Center, Heading } from "@chakra-ui/react"; // Opcional, si deseas usar Chakra UI aquí también
 
-  return loading ? (
-    <Loader />
-  ) : (
-    <ItemListContainer products={productsData} />
-  );
+const Home = () => {
+    const [productsData, setProductsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        getAllProducts()
+            .then((res) => {
+                setProductsData(res.data.products); // Obtener productos de la API
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false); // Quitar loading una vez que se hayan cargado los productos
+            });
+    }, []);
+
+    return (
+        <Box>
+            <Heading as="h1" size="lg" textAlign="center" my={4}>
+                Listado de Productos
+            </Heading>
+            {loading ? (
+                <Center>Loading...</Center>
+            ) : (
+                <ItemListContainer products={productsData} /> // Pasa los productos como prop
+            )}
+        </Box>
+    );
 };
 
 export default Home;
