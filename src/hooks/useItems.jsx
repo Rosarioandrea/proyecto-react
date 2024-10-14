@@ -1,27 +1,20 @@
 import { useEffect, useState } from "react";
-import { getAllProducts } from "../services/products.service";
-
-export const useItems = () => {
-  const [productsData, setProductsData] = useState([]);
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+export const useItems = (collectionName) => {
+  const [itemsData, setItemsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Estado para manejar errores
-
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true); // Reinicia el estado de carga
-      try {
-        const res = await getAllProducts();
-        setProductsData(res.data.products);
-      } catch (error) {
-        setError(error); // Captura el error
-        console.log(error);
-      } finally {
-        setLoading(false); // Asegúrate de que loading se establezca en false
-      }
-    };
-
-    fetchProducts();
+    const itemsCollection = collection(db, collectionName);
+    getDocs(itemsCollection)
+      .then((snapshot) => {
+        setItemsData(
+          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   }, []);
 
-  return { productsData, loading, error }; // Retorna el estado de error
+  return { itemsData, loading };
 };

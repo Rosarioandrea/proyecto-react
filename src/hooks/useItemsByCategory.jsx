@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { getProductsByCategory } from "../services/products.service";
+import { useState, useEffect } from "react";
+import { db } from "../firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+
+//Query => consula => SQL => Base de Datos
+// SELECT * FROM loquesea WHERE numero = 1 (base de datos relacional)
 
 export const useItemsByCategory = (categoryId) => {
   const [productsData, setProductsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Estado para manejar errores
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true); // Reinicia el estado de carga
-      setError(null); // Reinicia el estado de error
+    const customQuery = query(
+      collection(db, "products"),
+      where("category", "==", categoryId)
+    );
 
-      try {
-        const res = await getProductsByCategory(categoryId);
-        setProductsData(res.data.products);
-      } catch (error) {
-        setError(error); // Captura el error
-        console.log(error);
-      } finally {
-        setLoading(false); // Asegúrate de que loading se establezca en false
-      }
-    };
-
-    if (categoryId) {
-      fetchProducts(); // Solo llama a la función si categoryId es válido
-    }
+    getDocs(customQuery)
+      .then((snapshot) => {
+        setProductsData(
+          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
   }, [categoryId]);
-
-  return { productsData, loading, error }; // Retorna el estado de error
+  return { productsData, loading };
 };

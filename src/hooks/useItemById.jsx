@@ -1,15 +1,20 @@
-// src/hooks/useItemById.js
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export const useItemById = (id) => {
-    const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // Aquí va tu lógica para obtener el producto por ID
-        // Asegúrate de manejar los estados de loading y error
-    }, [id]);
+  useEffect(() => {
+    const itemCollection = doc(db, "products", id);
+    getDoc(itemCollection)
+      .then((snapshot) => {
+        setProduct({ id: snapshot.id, ...snapshot.data() });
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
 
-    return { product, loading, error };
+  return { product, loading };
 };
