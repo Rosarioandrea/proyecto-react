@@ -99,7 +99,7 @@ import {
   
             <Stack direction="row" alignItems="center" justifyContent={"center"}>
               <MdLocalShipping />
-              <Text>2-3 business days delivery</Text>
+              <Text>Entrega en 2-3 días hábiles</Text>
             </Stack>
           </Stack>
         </SimpleGrid>

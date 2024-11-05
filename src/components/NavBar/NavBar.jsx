@@ -32,7 +32,7 @@ import {
         <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
           <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
             <Link to="/">
-              <Box>Logo</Box>
+              <Box>E-commerce</Box>
             </Link>
             <Menu>
               <MenuButton as={Button} cursor="pointer" style={{ marginLeft: 30 }}>
@@ -71,7 +71,7 @@ import {
                   >
                     <Avatar
                       size={"sm"}
-                      src={"https://avatars.dicebear.com/api/male/username.svg"}
+                      src={"https://api.dicebear.com/9.x/dylan/svg"}
                     />
                   </MenuButton>
                   <MenuList alignItems={"center"}>

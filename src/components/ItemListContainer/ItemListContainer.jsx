@@ -16,16 +16,16 @@ const Item = ({ item }) => {
     <Center py={6}>
       <Box
         w="xs"
-        rounded={"sm"}
+        rounded={"lg"}
         my={5}
         mx={[0, 5]}
         overflow={"hidden"}
         bg="white"
         border={"1px"}
         borderColor="black"
-        boxShadow={useColorModeValue("6px 6px 0 black", "6px 6px 0 cyan")}
+        boxShadow="none" 
       >
-        <Box h={"200px"} borderBottom={"1px"} borderColor="black">
+        <Box h={"300px"} borderBottom={"1px"} borderColor="black">
           <Img
             src={item.thumbnail}
             roundedTop={"sm"}
@@ -39,11 +39,11 @@ const Item = ({ item }) => {
           <Heading color={"black"} fontSize={"2xl"} noOfLines={1}>
             {item.title}
           </Heading>
-          <Text color={"gray.500"} noOfLines={2}>
+          <Text color={"gray.500"} noOfLines={1}>
             {item.description}
           </Text>
           <Box
-            bg="gold"
+            bg="green"
             display={"inline-block"}
             px={2}
             py={1}
@@ -78,7 +78,7 @@ const Item = ({ item }) => {
           >
             <Link to={`/item/${item.id}`}>
               <Text fontSize={"md"} fontWeight={"semibold"}>
-                View more
+                Ver mas
               </Text>
             </Link>
             <BsArrowUpRight />
